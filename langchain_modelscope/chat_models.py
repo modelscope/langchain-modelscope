@@ -1,18 +1,17 @@
 """Wrapper around modelscope chat endpoint models."""
 
-from typing import Dict
+from typing import Dict, Optional
 
 from langchain_core.utils import convert_to_secret_str, get_from_dict_or_env
 from langchain_openai import ChatOpenAI
-from pydantic import model_validator
+from pydantic import Field, SecretStr, model_validator
 
 from langchain_modelscope.llms import (
     MODELSCOPE_SERVICE_URL_BASE,
-    ModelScopeCommon,
 )
 
 
-class ModelScopeChatEndpoint(ModelScopeCommon, ChatOpenAI):  # type: ignore[misc, override, override]
+class ModelScopeChatEndpoint(ChatOpenAI):  # type: ignore[misc, override, override]
     """Modelscope chat model inference api integration. To use, must have a modelscope account and a modelscope sdk token.
     Refer to https://modelscope.cn/docs/model-service/API-Inference/intro for more details.
 
@@ -87,6 +86,8 @@ class ModelScopeChatEndpoint(ModelScopeCommon, ChatOpenAI):  # type: ignore[misc
                 print(chunk)
 
     """  # noqa: E501
+    base_url: str = MODELSCOPE_SERVICE_URL_BASE
+    modelscope_sdk_token: Optional[SecretStr] = Field(default=None, alias="api_key")
 
     @model_validator(mode="before")
     def validate_environment(cls, values: Dict) -> Dict:
