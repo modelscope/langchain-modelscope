@@ -35,13 +35,3 @@ from langchain_modelscope import ModelScopeEmbeddings
 embeddings = ModelScopeEmbeddings(model_id="damo/nlp_corom_sentence-embedding_english-base")
 embeddings.embed_query("What is the meaning of life?")
 ```
-
-## LLMs
-`ModelScopeLLM` class exposes LLMs from ModelScope.
-
-```python
-from langchain_modelscope import ModelScopeLLM
-
-llm = ModelScopeLLM(model="Qwen/Qwen2.5-Coder-32B-Instruct")
-llm.invoke("The meaning of life is")
-```
